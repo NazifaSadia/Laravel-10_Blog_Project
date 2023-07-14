@@ -74,7 +74,7 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="center_form">
-                <form action="{{url('edit_post',$post->id)}}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('post.update', $post->id) }}" method="post" enctype="multipart/form-data">
                   @csrf
                   <div class="row">
                     <div class="col-lg-6">
@@ -85,11 +85,18 @@
 
                   <div class="form-group">
                     <label> Post Description </label>
-                    <textarea class="form-control" name="description" value="{{$post->description}}"></textarea>
+                    <textarea class="form-control" name="description">{{$post->description}}</textarea>
                   </div>
 
                   <div class="mb-3">
                     <label for="image" class="form-label">Image </label>
+                    <br>
+                    @if ( $post->image == NULL )
+                        No Image Uploaded.
+                    @else                    
+                        <img src="{{ asset('backend/img/post/' . $post->image) }}" width="50">
+                    @endif
+                    <br>
                     <input type="file" class="form-control" name="image" id="image">
                   </div>
                 
@@ -97,7 +104,7 @@
                   </div>
 
                   <div class="form-group">
-                    <input type="submit" name="Submit" value="Publish" class="btn btn-primary " />
+                    <input type="submit" name="postUpdate" value="Save Changes" class="btn btn-primary " />
                   </div>
 
                 </form>

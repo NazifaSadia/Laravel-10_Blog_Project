@@ -21,7 +21,7 @@ class AdminController extends Controller
 
         $user_id    = $user->id;
         $name       = $user->name;
-        $user_type  = $user->name;
+        $user_type  = $user->user_type;
         //////////////////////////////
 
         $post = new Post;
@@ -39,7 +39,7 @@ class AdminController extends Controller
         if( $image )
         {
           $image_name = time().'.'.$image->getClientOriginalExtension();
-          $request->image->move('postimage',$image_name);
+          $request->image->move('backend/img/post/',$image_name);
           $post->image = $image_name;
         }
         
@@ -84,7 +84,9 @@ class AdminController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $post = Post::find($id);
+
+        return view('admin.edit',compact('post'));
     }
 
     /**
@@ -94,7 +96,20 @@ class AdminController extends Controller
     {
         $post = Post::find($id);
 
-        return view('admin.edit',compact('post'));
+        $post->title        =   $request->title;
+        $post->description  =   $request->description;
+
+        $image = $request->image;
+
+        if( $image )
+        {
+          $image_name = time().'.'.$image->getClientOriginalExtension();
+          $request->image->move('backend/img/post/',$image_name);
+          $post->image = $image_name;
+        }
+
+        $post->save();
+        return redirect()->route('post.show')->with('message','Post Updated Successfully!');
     }
 
     /**

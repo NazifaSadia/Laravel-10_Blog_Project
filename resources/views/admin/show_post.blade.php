@@ -23,8 +23,9 @@
       <!-- Sidebar Navigation end-->
 
         <div class="page-content">
+
         @if(session()->has('message'))
-          <div class="alert alert-danger">
+          <div class="alert alert-success">
             <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">x</button>
             {{ session()->get('message') }}
           </div>
@@ -55,7 +56,7 @@
                       <td>{{ $post->post_status }}</td>
                       <td>{{ $post->user_type }}</td>
                       <td>                                   
-                        <img src="{{ asset('postimage/' . $post->image) }}" height="50" width="100">
+                        <img src="{{ asset('backend/img/post/' . $post->image) }}" height="50" width="100">
                       </td>
 
                       <td>
@@ -66,7 +67,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="{{url('/delete_post', $post->id)}}" onclick="Confirmation(event)">
+                            <a href="{{url('/destroy', $post->id)}}" onclick="Confirmation(event)">
                               <i class="fa fa-trash"></i>
                             </a>
                           </li>
@@ -83,29 +84,30 @@
 
         @include('admin.includes.footer')  
         @include('admin.includes.scripts') 
-      <script type="text/javascript">
-        function Confirmation(e){
-          e.preventDefault();
-          var urlToRedirect =e.currentTarget.getAttribute('href');
 
-          console.log( urlToRedirect );
+        <script type="text/javascript">
+          function Confirmation(e){
+            e.preventDefault();
+            var urlToRedirect =e.currentTarget.getAttribute('href');
 
-          swal({
-            title     : "Are you sure to Delete this Post?",
-            text      : "You won't be able to revert this delete.",
-            icon      : "warning",
-            buttons   : true,
-            dangerMode: true
-          })
+            console.log( urlToRedirect );
 
-          .then( (willCancel) => {
-            if(willCancel)
-            {
-              window.location.href = urlToRedirect;
-            }
-          });
-        }
-      </script>
+            swal({
+              title     : "Are you sure to Delete this Post?",
+              text      : "You won't be able to revert this delete.",
+              icon      : "warning",
+              buttons   : true,
+              dangerMode: true
+            })
+
+            .then( (willCancel) => {
+              if(willCancel)
+              {
+                window.location.href = urlToRedirect;
+              }
+            });
+          }
+        </script>
 
   </body>
 </html>

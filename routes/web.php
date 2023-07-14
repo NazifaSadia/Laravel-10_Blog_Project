@@ -34,7 +34,22 @@ require __DIR__.'/auth.php';
 
 Route::get('/post_page',[AdminController::class, 'post_page']);
 Route::post('/add_post',[AdminController::class, 'add_post']);
-Route::get('/show_post',[AdminController::class, 'show_post']);
-Route::get('/edit_post/{id}',[AdminController::class, 'update']);
-Route::get('/delete_post/{id}',[AdminController::class, 'destroy']);
+Route::get('/show_post',[AdminController::class, 'show_post'])->name('post.show');
+Route::get('/edit_post/{id}',[AdminController::class, 'edit'])->name('post.edit');
+Route::post('/update/{id}',[AdminController::class, 'update'])->name('post.update');
+Route::get('/destroy/{id}',[AdminController::class, 'destroy'])->name('post.destroy');
 
+// Frontend Routes
+Route::get('/post_details/{id}',[HomeController::class, 'post_details'])->name('post.details');
+// For User
+
+ // Routes for Campus Management
+Route::group([ 'prefix' => '/userpost' ], function(){
+    Route::get('/create',[HomeController::class, 'create'])->name('userpost.create')->middleware('auth');
+    Route::post('/store',[HomeController::class, 'store'])->name('userpost.store')->middleware('auth');
+    Route::get('/my_post',[HomeController::class, 'my_post'])->name('userpost.my_post')->middleware('auth');
+    Route::get('/edit/{id}',[HomeController::class, 'edit'])->name('userpost.edit')->middleware('auth');
+    Route::post('/update/{id}',[HomeController::class, 'update'])->name('userpost.update')->middleware('auth');
+    Route::get('/destroy/{id}',[HomeController::class, 'destroy'])->name('userpost.destroy')->middleware('auth');
+        
+});
